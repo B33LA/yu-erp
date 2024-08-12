@@ -1,0 +1,51 @@
+nav {
+    background-color: #0041ad; /* Tamno plava */
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav h2 {
+    margin: 0;
+    font-size: 24px;
+    color: white; /* Belo */
+  }
+  
+  nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    cursor: pointer;
+  }
+  
+  nav ul li a,
+  nav ul li button {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    background-color: transparent; /* Ako je button */
+    border: none; /* Ako je button */
+  }
+  
+  nav ul li a:hover,
+  nav ul li button:hover {
+    background-color: #ff0000; /* Crvena */
+  }
+  
+  nav ul li a.active {
+    background-color: #ffffff; /* Belo */
+    color: #0041ad; /* Tamno plava */
+  }
+  
+  
