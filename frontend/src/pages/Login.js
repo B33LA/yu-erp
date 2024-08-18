@@ -5,10 +5,16 @@ import './Login.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      setErrorMessage('Please fill in all fields');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:5001/api/login', {
@@ -20,47 +26,50 @@ const Login = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok.');
+        throw new Error('Login failed');
       }
 
       const data = await response.json();
-
-      if (data.token) {
-        localStorage.setItem('authToken', data.token);
-        navigate('/main'); // Preusmeravanje na MainPage
-      } else {
-        alert('Login failed, please check your credentials.');
-      }
+      localStorage.setItem('authToken', data.token); // Save token to local storage
+      navigate('/main'); // Redirect to main page upon successful login
     } catch (error) {
-      console.error('Error during login:', error);
-      alert('An error occurred during login. Please try again.');
+      setErrorMessage('Invalid email or password');
+      console.error(error);
     }
   };
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+      <div className="login-form">
+        <h1>Login</h1>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn login-btn">Login</button>
+        </form>
+        <p className="register-prompt">
+          Don't have an account? <a href="/register">Register here</a>
+        </p>
+      </div>
     </div>
   );
 };

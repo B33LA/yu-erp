@@ -1,46 +1,102 @@
-nav {
-  background-color: #0041ad; /* Tamno plava */
-  color: white;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+/* Navbar Styling */
 
-nav h2 {
-  margin: 0;
-  font-size: 24px;
-  color: white; /* Belo */
-}
-
-nav ul {
-  list-style-type: none;
-  display: flex;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
-}
-
-nav ul li {
-  cursor: pointer;
-}
-
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-nav ul li a:hover {
-  background-color: #ff0000; /* Crvena */
-}
-
-nav ul li a.active {
-  background-color: #ffffff; /* Belo */
-  color: #0041ad; /* Tamno plava */
-}
+.navbar {
+    background: linear-gradient(135deg, #002f6c, #d71920, #ffffff);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .navbar-logo a {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  .navbar-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+  }
+  
+  .navbar-links li a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-links li a:hover {
+    color: #002f6c; /* Blue on hover */
+  }
+  
+  .navbar-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    background: #002f6c; /* Blue underline on hover */
+    transition: width 0.3s;
+  }
+  
+  .navbar-links li a:hover::after {
+    width: 100%;
+  }
+  
+  .navbar-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .btn {
+    font-family: 'Poppins', sans-serif;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .login-btn {
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+  }
+  
+  .login-btn:hover {
+    background-color: #ffffff;
+    color: #002f6c;
+  }
+  
+  .register-btn {
+    background-color: #d71920; /* Red color */
+    color: #ffffff;
+  }
+  
+  .register-btn:hover {
+    background-color: #ffffff;
+    color: #d71920;
+  }
+  
+  /* Responsive Navbar */
+  @media screen and (max-width: 768px) {
+    .navbar-links {
+      display: none;
+    }
+  
+    .navbar-buttons {
+      display: none;
+    }
+  }
 

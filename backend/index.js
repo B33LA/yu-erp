@@ -1,29 +1,30 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { sequelize } = require('./models');
+const dotenv = require('dotenv');
 const cors = require('cors');
-const app = express();
-const port = 5001;
 
-// Povezivanje sa bazom podataka
-const db = require('./models'); // Ovo će automatski učitati index.js iz models direktorijuma
-
-// Sinkronizacija baze podataka
-db.sequelize.sync().then(() => {
-  console.log('Baza podataka je sinhronizovana.');
-}).catch((err) => {
-  console.error('Došlo je do greške prilikom sinhronizacije baze podataka:', err);
-});
-
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-
-// Importovanje ruta
+// Import routes
 const apiRoutes = require('./routes/api');
 
-// Koristi rute
-app.use('/api', apiRoutes);
+dotenv.config(); // Load environment variables
 
-app.listen(port, () => {
-  console.log(`Server radi na http://localhost:${port}`);
-});
+const app = express();
+
+// Middleware
+app.use(cors()); // Enable Cross-Origin Resource Sharing (useful for connecting frontend and backend)
+app.use(bodyParser.json()); // Parse incoming requests with JSON payloads
+
+// Use routes
+app.use('/api', apiRoutes); // All API routes will be prefixed with /api
+
+// Sync with the database and start the server
+sequelize.sync()
+  .then(() => {
+    app.listen(5001, () => {
+      console.log('Server is running on http://localhost:5001');
+    });
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error);
+  });

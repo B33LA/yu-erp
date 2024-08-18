@@ -1,13 +1,12 @@
 import React from 'react';
-import './Home.css';
 
 const Home = () => {
   return (
     <div>
-      <h1>Home Page</h1>
-      <p>Welcome to the YU-ERP system.</p>
+      <h1>Welcome to YU-ERP</h1>
+      <p>Your go-to solution for business management.</p>
     </div>
   );
-}
+};
 
 export default Home;

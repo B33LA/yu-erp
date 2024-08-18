@@ -1,43 +1,104 @@
-.login-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Global Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
   }
   
-  .login-container h2 {
+  /* Login Page Styling */
+  .login-container {
+    background: linear-gradient(135deg, #002f6c, #ffffff, #d71920);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    margin: 0; /* Reset margin */
+  }
+  
+  .login-form {
+    background-color: #ffffff;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 500px;
     text-align: center;
-    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: #002f6c;
+    margin-bottom: 2rem;
+    font-weight: 700;
   }
   
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 1.5rem;
+    text-align: left;
   }
   
   .form-group label {
+    font-family: 'Montserrat', sans-serif;
+    color: #002f6c;
+    margin-bottom: 0.5rem;
     display: block;
-    margin-bottom: 5px;
+    font-weight: 600;
   }
   
   .form-group input {
     width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+    padding: 0.75rem;
+    border: 2px solid #d71920;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
   }
   
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
+  .form-group input:focus {
+    border-color: #002f6c;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 47, 108, 0.5);
+  }
+  
+  .btn.login-btn {
+    background: linear-gradient(90deg, #002f6c, #d71920);
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 25px;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
   }
   
-  button:hover {
-    background-color: #0056b3;
+  .btn.login-btn:hover {
+    background: linear-gradient(90deg, #d71920, #002f6c);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 47, 108, 0.3);
+  }
+  
+  .error-message {
+    color: #d71920;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 1rem;
+  }
+  
+  .register-prompt {
+    margin-top: 1rem;
+  }
+  
+  .register-prompt a {
+    color: #002f6c;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .register-prompt a:hover {
+    text-decoration: underline;
   }
   
