@@ -1,0 +1,96 @@
+/* Welcome Page Styling */
+
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #002f6c, #d71920, #ffffff);
+  }
+  
+  .welcome-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 3rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .welcome-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    color: #002f6c;
+    margin-bottom: 1rem;
+  }
+  
+  .welcome-content p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: #333333;
+    margin-bottom: 2rem;
+  }
+  
+  .welcome-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .get-started-btn {
+    background-color: #d71920;
+    color: #ffffff;
+    padding: 0.8rem 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .get-started-btn:hover {
+    background-color: #ffffff;
+    color: #d71920;
+    border: 2px solid #d71920;
+  }
+  
+  .logout-btn {
+    background-color: transparent;
+    color: #002f6c;
+    padding: 0.8rem 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    border: 2px solid #002f6c;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .logout-btn:hover {
+    background-color: #002f6c;
+    color: #ffffff;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .welcome-content {
+      padding: 2rem;
+    }
+  
+    .welcome-content h1 {
+      font-size: 2rem;
+    }
+  
+    .welcome-content p {
+      font-size: 1rem;
+    }
+  
+    .welcome-buttons {
+      flex-direction: column;
+    }
+  
+    .get-started-btn, .logout-btn {
+      width: 100%;
+    }
+  }
+  

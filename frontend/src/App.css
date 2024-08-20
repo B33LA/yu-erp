@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.logout-btn {
+  background-color: #007BFF; /* Example color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-top: 20px; /* Add margin to separate from the top */
+}
+
+.logout-btn:hover {
+  background-color: #0056b3;
+}

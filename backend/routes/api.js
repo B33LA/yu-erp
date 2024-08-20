@@ -3,32 +3,30 @@ const { User } = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
+const authenticateToken = require('../middleware/authenticateToken');
 
 // Register Route
 router.post('/register', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
-    // Check if user already exists
     let user = await User.findOne({ where: { email } });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
     user = await User.create({
       firstName,
       lastName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      onboardingCompleted: false // Set onboarding status to false
     });
 
-    // Generate JWT Token
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'yourSecretKey', {
-      expiresIn: '1h'
+      expiresIn: '1h',
     });
 
     res.status(201).json({ token });
@@ -54,10 +52,45 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'yourSecretKey', {
-      expiresIn: '1h'
+      expiresIn: '1h',
     });
 
-    res.json({ token });
+    res.json({ token, onboardingCompleted: user.onboardingCompleted });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+// Route to get user info (including onboarding status)
+router.get('/me', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    res.json({
+      onboardingCompleted: user.onboardingCompleted,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+// Update onboarding completion
+router.put('/complete-onboarding', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    user.onboardingCompleted = true;
+    await user.save();
+
+    res.json({ msg: 'Onboarding completed' });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');

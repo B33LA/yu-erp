@@ -1,65 +1,98 @@
 const express = require('express');
-const { User } = require('../models'); // Your User model
-const bcrypt = require('bcryptjs'); // For hashing passwords
-const jwt = require('jsonwebtoken'); // For generating tokens
-
+const { User } = require('../models');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
+const authenticateToken = require('../middleware/authenticateToken');
 
 // Register Route
 router.post('/register', async (req, res) => {
-  try {
-    const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
-    // Check if user exists
+  try {
     let user = await User.findOne({ where: { email } });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
     user = await User.create({
       firstName,
       lastName,
       email,
       password: hashedPassword,
+      onboardingCompleted: false, // Default onboarding status to false
     });
 
-    // Generate JWT token
-    const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'yourSecretKey', {
+      expiresIn: '1h',
+    });
 
-    res.json({ token });
+    res.status(201).json({ token });
   } catch (err) {
-    console.error('Error registering user:', err);
+    console.error(err);
     res.status(500).send('Server error');
   }
 });
 
 // Login Route
 router.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    // Find user by email
+  try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: 'Invalid credentials' });
     }
 
-    // Generate JWT token
-    const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'yourSecretKey', {
+      expiresIn: '1h',
+    });
 
-    res.json({ token });
+    res.json({ token, onboardingCompleted: user.onboardingCompleted });
   } catch (err) {
-    console.error('Error logging in:', err);
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+// Route to get user info (including onboarding status)
+router.get('/me', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    res.json({
+      onboardingCompleted: user.onboardingCompleted,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+// Update onboarding completion
+router.put('/complete-onboarding', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    user.onboardingCompleted = true;
+    await user.save();
+
+    res.json({ msg: 'Onboarding completed' });
+  } catch (err) {
+    console.error(err);
     res.status(500).send('Server error');
   }
 });

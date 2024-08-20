@@ -30,8 +30,21 @@ const Login = () => {
       }
 
       const data = await response.json();
-      localStorage.setItem('authToken', data.token); // Save token to local storage
-      navigate('/main'); // Redirect to main page upon successful login
+
+      // Check if the data contains the token and onboarding status
+      if (data.token) {
+        localStorage.setItem('authToken', data.token); // Save token to local storage
+
+        // Check if onboarding is completed and navigate accordingly
+        if (data.onboardingCompleted) {
+          navigate('/dashboard'); // Navigate to dashboard after successful login
+        } else {
+          navigate('/welcome'); // Navigate to onboarding if not completed
+        }
+      } else {
+        setErrorMessage('Login failed, please try again.');
+      }
+
     } catch (error) {
       setErrorMessage('Invalid email or password');
       console.error(error);

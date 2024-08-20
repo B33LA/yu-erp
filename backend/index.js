@@ -7,11 +7,12 @@ const cors = require('cors');
 // Import routes
 const apiRoutes = require('./routes/api');
 
-dotenv.config(); // Load environment variables
+// Load environment variables
+dotenv.config();
 
 const app = express();
 
-// Middleware
+// Middleware setup
 app.use(cors()); // Enable Cross-Origin Resource Sharing (useful for connecting frontend and backend)
 app.use(bodyParser.json()); // Parse incoming requests with JSON payloads
 

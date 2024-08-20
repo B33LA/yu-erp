@@ -10,7 +10,7 @@ const Register = () => {
     password: '',
     confirmPassword: '',
   });
-
+  
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -21,13 +21,10 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
-
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
     try {
       const response = await fetch('http://localhost:5001/api/register', {
         method: 'POST',
@@ -38,15 +35,13 @@ const Register = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.msg || 'Registration failed');
-        return;
+        throw new Error('Registration failed');
       }
 
       const data = await response.json();
-      console.log(data); // Handle successful registration
+      localStorage.setItem('authToken', data.token); // Save token to local storage
 
-      // After successful registration, redirect to welcome page
+      // Navigate to onboarding process after successful registration
       navigate('/welcome');
     } catch (error) {
       setError('An error occurred. Please try again.');
